@@ -1,0 +1,52 @@
+[tool.poetry]
+name = "fastapi-backend"
+version = "0.1.0"
+description = ""
+authors = ["Hylan Silva <111002592+hylansilvadev@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.108.0"
+uvicorn = "^0.25.0"
+
+
+[tool.poetry.group.dev.dependencies]
+taskipy = "^1.12.2"
+pytest = "^7.4.4"
+pytest-cov = "^4.1.0"
+httpx = "^0.26.0"
+ruff = "^0.1.11"
+isort = "^5.13.2"
+blue = "^0.9.1"
+
+[tool.ruff]
+line-length = 79
+exclude = ['.venv', 'migrations']
+
+[tool.isort]
+profile = "black"
+line_length = 79
+extend_skip = ['migrations']
+
+[tool.blue]
+extend-exclude = '(migrations/)'
+
+[tool.taskipy.tasks]
+lint = 'ruff . && blue --check . --diff'
+format = 'blue .  && isort .'
+run = "uvicorn fastapi_backend.app:app --reload"
+pre_test = 'task lint'
+test = 'pytest -s -x --cov=fastapi_backend -vv'
+pos_test = 'coverage html'
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = [
+    "tests",
+    "integration",
+]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
