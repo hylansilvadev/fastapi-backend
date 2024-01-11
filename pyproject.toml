@@ -36,9 +36,9 @@ extend-exclude = '(migrations/)'
 [tool.taskipy.tasks]
 lint = 'ruff . && blue --check . --diff'
 format = 'blue .  && isort .'
-run = "uvicorn fastapi_backend.app:app --reload"
+run = "uvicorn app.app:app --reload"
 pre_test = 'task lint'
-test = 'pytest -s -x --cov=fastapi_backend -vv'
+test = 'pytest -s -x --cov=app -vv'
 pos_test = 'coverage html'
 [tool.pytest.ini_options]
 minversion = "6.0"
